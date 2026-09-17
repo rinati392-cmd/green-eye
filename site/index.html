@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GREEN EYE · מעון בטבע</title>
+<meta name="description" content="סיור גלילה קולנועי בפרויקט GREEN EYE — הסלון, המרחב הפתוח, חדר ההורים והמרפסת אל היער.">
+<link rel="icon" href="assets/logo-light.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ======== PRELOADER ======== -->
+<div class="loader" id="loader">
+  <img class="loader__logo" src="assets/logo-light.svg" alt="GREEN EYE">
+  <div class="loader__bar"><span id="loaderFill"></span></div>
+  <div class="loader__pct" id="loaderPct">0%</div>
+</div>
+
+<!-- ======== FIXED CANVAS STAGE ======== -->
+<div class="stage" id="stage">
+  <canvas id="seq"></canvas>
+  <div class="stage__grain"></div>
+  <div class="stage__vignette"></div>
+</div>
+
+<!-- ======== FIXED UI ======== -->
+<header class="topbar" id="topbar">
+  <img class="topbar__logo" src="assets/logo-light.svg" alt="GREEN EYE">
+  <div class="topbar__meta">מעון בטבע · יער ירושלים</div>
+</header>
+
+<nav class="scenenav" id="scenenav" aria-label="ניווט סצנות"></nav>
+
+<div class="progress"><span id="progressFill"></span></div>
+
+<!-- ======== CAPTIONS (fixed, driven by scroll) ======== -->
+<div class="captions" id="captions"></div>
+
+<!-- ======== SCROLL DOCUMENT ======== -->
+<main>
+  <section class="hero" id="hero">
+    <div class="hero__inner">
+      <img class="hero__logo" src="assets/logo-light.svg" alt="GREEN EYE">
+      <h1 class="hero__title">הבית שנפתח<br><em>אל היער</em></h1>
+      <p class="hero__sub">ארבע סצנות. גלילה אחת. הסיור מתנגן בקצב שלך.</p>
+    </div>
+    <div class="hero__scroll"><span class="hero__scrollline"></span>גללו להתחלה</div>
+  </section>
+
+  <div class="track" id="track"></div>
+
+  <section class="outro" id="outro">
+    <img class="outro__logo" src="assets/logo-light.svg" alt="GREEN EYE">
+    <h2>נשארתם עם הנוף בעיניים?</h2>
+    <p>3–5 חדרים · מרפסות שמש עם פתיחה מלאה אל הוואדי · אכלוס 2027</p>
+    <a class="btn" href="#hero">חזרה לתחילת הסיור</a>
+    <div class="outro__foot">GREEN EYE · כל הזכויות שמורות</div>
+  </section>
+</main>
+
+<script src="main.js"></script>
+</body>
+</html>

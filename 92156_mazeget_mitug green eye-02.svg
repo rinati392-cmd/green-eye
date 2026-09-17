@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 5442.52 3061.42">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #323e2b;
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" x="0" y="3061.42" width="5442.52" height="3061.42"/>
+    </clipPath>
+  </defs>
+  <rect class="cls-2" x="0" y="0" width="5442.52" height="3061.42"/>
+</svg>

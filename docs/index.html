@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
@@ -53,15 +53,74 @@
 
   <div class="track" id="track"></div>
 
+  <!-- ======== LEAD CAPTURE ======== -->
+  <section class="lead" id="lead">
+    <div class="lead__panel">
+      <div class="lead__intro">
+        <div class="lead__eyebrow">השארת פרטים</div>
+        <h2>רוצים לראות<br><em>את זה במציאות?</em></h2>
+        <p>השאירו פרטים ונחזור אליכם עם תוכניות הדירות, מפרט טכני ותיאום סיור בשטח. אנחנו לא מציפים — פנייה אחת, אדם אחד.</p>
+        <ul class="lead__points">
+          <li>תוכניות ומפרט מלא במייל</li>
+          <li>תיאום סיור בפרויקט</li>
+          <li>מענה תוך יום עסקים</li>
+        </ul>
+      </div>
+
+      <form class="lead__form" id="leadForm" novalidate onsubmit="return false">
+        <label class="field">
+          <span>שם מלא <b>*</b></span>
+          <input type="text" name="name" autocomplete="name" required placeholder="ישראל ישראלי">
+        </label>
+        <label class="field">
+          <span>טלפון <b>*</b></span>
+          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" required placeholder="050-0000000">
+        </label>
+        <label class="field">
+          <span>אימייל</span>
+          <input type="email" name="email" autocomplete="email" placeholder="name@example.com">
+        </label>
+        <label class="field">
+          <span>גודל הדירה המבוקש</span>
+          <select name="rooms">
+            <option value="">ללא העדפה</option>
+            <option>3 חדרים</option>
+            <option>4 חדרים</option>
+            <option>5 חדרים</option>
+            <option>פנטהאוז</option>
+          </select>
+        </label>
+        <label class="field field--wide">
+          <span>הערה</span>
+          <textarea name="note" rows="3" placeholder="מתי נוח שנחזור אליכם?"></textarea>
+        </label>
+        <label class="check field--wide">
+          <input type="checkbox" name="consent" required>
+          <span>אני מאשר/ת קבלת מידע שיווקי על הפרויקט</span>
+        </label>
+        <div class="lead__error" id="leadError" role="alert" hidden></div>
+        <button class="btn btn--solid field--wide" type="submit">שליחה</button>
+        <p class="lead__note field--wide">הפרטים נשמרים לצורך יצירת קשר בנוגע לפרויקט בלבד.</p>
+      </form>
+
+      <div class="lead__thanks" id="leadThanks" hidden>
+        <div class="lead__check">✓</div>
+        <h3>תודה, קיבלנו</h3>
+        <p id="leadThanksName">נחזור אליכם בהקדם עם כל החומרים.</p>
+        <button class="btn" type="button" id="leadAgain">שליחת פנייה נוספת</button>
+      </div>
+    </div>
+  </section>
+
   <section class="outro" id="outro">
     <img class="outro__logo" src="assets/logo-light.svg" alt="GREEN EYE">
     <h2>נשארתם עם הנוף בעיניים?</h2>
     <p>3–5 חדרים · מרפסות שמש עם פתיחה מלאה אל הוואדי · אכלוס 2027</p>
-    <a class="btn" href="#hero">חזרה לתחילת הסיור</a>
+    <div class="outro__cta"><a class="btn btn--solid" href="#lead">להשארת פרטים</a><a class="btn" href="#hero">חזרה לתחילת הסיור</a></div>
     <div class="outro__foot">GREEN EYE · כל הזכויות שמורות</div>
   </section>
 </main>
 
-<script src="main.js"></script>
+<script src="main.js?v=2"></script>
 </body>
 </html>

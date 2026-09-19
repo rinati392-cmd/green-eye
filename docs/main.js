@@ -204,3 +204,100 @@ loadScene(0, p => {
   // remaining scenes stream in quietly in the background
   (async () => { for (let i = 1; i < SCENES.length; i++) await loadScene(i); })();
 });
+
+/* ===========================================================
+   טופס השארת פרטים
+   -----------------------------------------------------------
+   LEAD_ENDPOINT — כתובת שאליה נשלחות הפניות (Formspree / Netlify
+   Forms / Google Apps Script / כל API שמקבל JSON ב-POST).
+   LEAD_EMAIL    — אם אין endpoint, הטופס ייפתח כמייל מוכן לשליחה.
+   כל עוד שניהם ריקים, הטופס מאמת את השדות ומציג אישור בלבד,
+   והפנייה נשמרת מקומית בדפדפן (localStorage) כדי שלא תאבד.
+   =========================================================== */
+const LEAD_ENDPOINT = '';
+const LEAD_EMAIL = '';
+
+const leadForm = document.getElementById('leadForm');
+if (leadForm) {
+  const errorBox = document.getElementById('leadError');
+  const thanks = document.getElementById('leadThanks');
+  const thanksName = document.getElementById('leadThanksName');
+  const again = document.getElementById('leadAgain');
+
+  const markInvalid = (el, bad) => {
+    const holder = el.type === 'checkbox' ? el.parentElement : el;
+    holder.classList.toggle('invalid', bad);
+  };
+
+  const validate = d => {
+    const f = leadForm.elements;
+    const digits = (d.phone || '').replace(/\D/g, '');
+    const checks = [
+      [f.name, d.name.trim().length >= 2, 'חסר שם מלא'],
+      [f.phone, digits.length >= 9 && digits.length <= 12, 'מספר הטלפון לא נראה תקין'],
+      [f.email, !d.email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email), 'כתובת האימייל לא תקינה'],
+      [f.consent, f.consent.checked, 'צריך לאשר קבלת מידע על הפרויקט']
+    ];
+    let msg = '';
+    checks.forEach(([el, ok, why]) => { markInvalid(el, !ok); if (!ok && !msg) msg = why; });
+    return msg;
+  };
+
+  const remember = payload => {
+    try {
+      const all = JSON.parse(localStorage.getItem('greeneye.leads') || '[]');
+      all.push(payload);
+      localStorage.setItem('greeneye.leads', JSON.stringify(all.slice(-50)));
+    } catch (e) { /* פרטיות/מצב פרטי — לא קריטי */ }
+  };
+
+  leadForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(leadForm).entries());
+    data.consent = leadForm.elements.consent.checked;
+
+    const problem = validate(data);
+    errorBox.hidden = !problem;
+    errorBox.textContent = problem;
+    if (problem) return;
+
+    const payload = { ...data, page: location.href, at: new Date().toISOString() };
+    remember(payload);
+
+    const btn = leadForm.querySelector('button[type=submit]');
+    btn.disabled = true; btn.textContent = 'שולח…';
+
+    try {
+      if (LEAD_ENDPOINT) {
+        const res = await fetch(LEAD_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error(res.status);
+      } else if (LEAD_EMAIL) {
+        const body = `שם: ${data.name}\nטלפון: ${data.phone}\nאימייל: ${data.email || '—'}\nגודל דירה: ${data.rooms || '—'}\nהערה: ${data.note || '—'}`;
+        location.href = `mailto:${LEAD_EMAIL}?subject=${encodeURIComponent('פנייה מאתר GREEN EYE')}&body=${encodeURIComponent(body)}`;
+      } else {
+        console.warn('[GREEN EYE] לא הוגדר יעד לטופס — הפנייה נשמרה מקומית בלבד. הגדירו LEAD_ENDPOINT ב-main.js.');
+      }
+      thanksName.textContent = `${data.name.trim().split(' ')[0]}, נחזור אליכם בהקדם עם כל החומרים.`;
+      leadForm.hidden = true;
+      thanks.hidden = false;
+    } catch (err) {
+      errorBox.hidden = false;
+      errorBox.textContent = 'השליחה נכשלה. אפשר לנסות שוב או להתקשר אלינו.';
+    } finally {
+      btn.disabled = false; btn.textContent = 'שליחה';
+    }
+  });
+
+  leadForm.addEventListener('input', e => markInvalid(e.target, false));
+
+  again.addEventListener('click', () => {
+    leadForm.reset();
+    leadForm.hidden = false;
+    thanks.hidden = true;
+    errorBox.hidden = true;
+  });
+}
